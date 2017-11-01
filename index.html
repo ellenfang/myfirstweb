@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link type="css" rel="stylesheet" href="css/polemon.css" />
+
+    <style type="text/css">
+        @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+        @import url(//fonts.googleapis.com/earlyaccess/cwtexhei.css);
+        html {
+            font-family: 'cwTeXHei', sans-serif;
+        }
+    </style>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body onLoad="buildHtmlTable()">
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+
+    <div class="container">
+
+
+        <div class="col s12 m8 offset-m2 l6 offset-l3">
+            <div class="card-panel yellow accent-1 z-depth-1">
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        <img src="x.jpg" alt="" class="circle responsive-img">
+                        <!-- notice the "circle" class -->
+                    </div>
+                    <div class="col s10">
+                        <span class="black-text" style="font-size:30px">
+                  一個成為神奇寶貝大師畫畫大師的夢想 by549講師
+                </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-wrapper">
+                <form>
+                    <div class="input-field">
+                        <input id="search" type="search" required onkeyup="myFunction()">
+                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+
+        <table class="centered" id="pokemon_table" style="font-size:20px">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>圖片</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>妙蛙種子</td>
+                    <td><img src="img/001.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>妙蛙草</td>
+                    <td><img src="img/002.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>妙蛙花</td>
+                    <td><img src="img/003.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>小火龍</td>
+                    <td><img src="img/004.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>火恐龍</td>
+                    <td><img src="img/005.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>噴火龍</td>
+                    <td><img src="img/006.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>傑尼龜</td>
+                    <td><img src="img/007.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>卡咪龜</td>
+                    <td><img src="img/008.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>水箭龜</td>
+                    <td><img src="img/009.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>綠毛蟲</td>
+                    <td><img src="img/010.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>鐵甲蛹</td>
+                    <td><img src="img/011.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>巴大蝴</td>
+                    <td><img src="img/012.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>獨角蟲</td>
+                    <td><img src="img/013.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>鐵殼昆</td>
+                    <td><img src="img/014.png" alt=""></td>
+                </tr>
+                <tr>
+                    <td>大針蜂</td>
+                    <td><img src="img/015.png" alt=""></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table id="excelDataTable" border="1" >
+        </table>
+
+    </div>
+
+    <script>
+        var myList = [{
+                "name": "abc",
+                "age": 50
+            },
+            {
+                "age": "25",
+                "hobby": "swimming"
+            },
+            {
+                "name": "xyz",
+                "hobby": "programming"
+            }
+        ];
+
+        // Builds the HTML Table out of myList json data from Ivy restful service.
+        function buildHtmlTable() {
+            var columns = addAllColumnHeaders(myList);
+
+            for (var i = 0; i < myList.length; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = myList[i][columns[colIndex]];
+
+                    if (cellValue == null) {
+                        cellValue = "";
+                    }
+
+                    row$.append($('<td/>').html(cellValue));
+                }
+                $("#excelDataTable").append(row$);
+            }
+        }
+
+        // Adds a header row to the table and returns the set of columns.
+        // Need to do union of keys from all records as some records may not contain
+        // all records
+        function addAllColumnHeaders(myList) {
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+
+            for (var i = 0; i < myList.length; i++) {
+                var rowHash = myList[i];
+                for (var key in rowHash) {
+                    if ($.inArray(key, columnSet) == -1) {
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                }
+            }
+            $("#excelDataTable").append(headerTr$);
+
+            return columnSet;
+        }
+    </script>
+
+
+
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("pokemon_table");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrainWidth: false, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'left', // Displays dropdown with edge aligned to the left of button
+                stopPropagation: false // Stops event propagation
+            });
+        });
+    </script>
+</body>
+
+</html>
